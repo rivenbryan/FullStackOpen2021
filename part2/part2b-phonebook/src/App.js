@@ -1,34 +1,34 @@
+import React from 'react'
 import { useState, useEffect } from 'react'
 import personService from './services/axios'
-import Personform  from './components/form'
+import Personform from './components/form'
 import Content from './components/Content'
+import Filter from './components/Filter'
+import Notification from './components/Notification'
+
 
 const App = () => {
 
   const [persons, setPersons] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
+  const [message, setMessage] = useState(null)
 
-  const hook = () => {
+
+  // Runs after every completed render 
+  useEffect( () => {
     personService.getAll()
       .then(response => {
         setPersons(response.data)
       })
-  }
-  // Runs after every completed render 
-  useEffect(hook, [])
+  }, [])
 
   return (
-    <>
-      <div>
-        <p>Filter:   <input type="text" placeholder="Filter..." onChange={event => setSearchTerm(event.target.value)} /> </p>
+      <div>       
+        <Notification message={message}/>
+        <Filter setSearchTerm={setSearchTerm} />
+        <Personform persons={persons} setPersons={setPersons} setMessage={setMessage} />
+        <Content persons={persons} searchTerm={searchTerm} setPersons={setPersons} />
       </div>
-      <div>
-        <Personform persons={persons} setPersons={setPersons} />
-        <Content persons={persons} searchTerm={searchTerm} setPersons={setPersons}/>
-
-
-      </div>
-    </>
   )
 }
 

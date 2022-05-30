@@ -28,11 +28,6 @@ const App = () => {
 
   const filteredcountries = ALLcountry.filter(country => country.name.common.toLowerCase().includes(filtertext.toLowerCase()))
   
-
-
-
-
-
   return (
     <div>
       <h2>Countries</h2>

@@ -1,5 +1,6 @@
 // Filters out based on searchTerm then map/render it to the website
 import personService from '../services/axios'
+import React from 'react'
 
 const Content = ({ persons, searchTerm, setPersons }) => {
 
