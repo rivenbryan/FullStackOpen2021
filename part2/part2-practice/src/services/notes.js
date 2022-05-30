@@ -11,12 +11,8 @@ const create = (newObject) => {
 }
 
 const update = (id, newObject) => {
-    return axios.put(`$(baseURL)/$(id)`, newObject)
+    return axios.put(`${baseURL}/${id}`, newObject)
 }
 
 // Module returns an obejct that has three functions
-export default {
-    getAll: getAll,
-    create: create,
-    update: update
-}
+export default { getAll,create,update }

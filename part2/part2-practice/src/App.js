@@ -1,7 +1,6 @@
 import React from 'react'
 import Note from './components/Note'
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import noteService from './services/notes'
 const App = ({ notesArr }) => {
 
@@ -16,14 +15,18 @@ const App = ({ notesArr }) => {
   // Keep tracks of which notes should be displayed
   const [showAll, setShowAll] = useState(2)
 
-
   const hook = () => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/notes')
+
+    const nonExisting = {
+      id: 10000,
+      content: 'This not is not saved in the server',
+      data: '2019-05-30T17:30:31.098Z',
+      important: true
+  }
+
+    noteService.getAll()
       .then(response => {
-        console.log('promise fulfilled')
-        setNotes(response.data)
+        setNotes(response.data.concat(nonExisting))
       })
   }
   // Runs after every completed render 
@@ -42,8 +45,7 @@ const App = ({ notesArr }) => {
       important: Math.random() < 0.5,
     }
 
-    axios
-      .post('http://localhost:3001/notes', noteObject)
+    noteService.create(noteObject)
       .then(response => {
         console.log(response)
         setNotes(vNotes.concat(response.data))
@@ -58,7 +60,7 @@ const App = ({ notesArr }) => {
   }
 
   // If ShowAll is True => vNotes else show only the ones that are important
-  const notesToShow = (showAll == 1) ? vNotes : vNotes.filter(note => note.important === false)
+  const notesToShow = (showAll === 1) ? vNotes : vNotes.filter(note => note.important === false)
 
   // AN event handler function that passes it to every Note component
   const toggle = (id) => {
@@ -72,12 +74,17 @@ const App = ({ notesArr }) => {
     console.log('importance of ' + id + 'needs to be toggled')
 
     // PUT request to the backend where it will replace the old object
-    axios.put(`http://localhost:3001/notes/${id}`, changedNote).then(response => {
+    noteService.update(id, changedNote).then(response => {
     // Callback functions sets the component state 
-    
-
     // If note.id != id (use back old Array) else (use server.data)
     setNotes(vNotes.map(note => note.id !== id ? note : response.data))
+    }).catch(error => {
+      alert(
+        // Catch the error
+        `The note '${note.content} was already added from server`
+      )
+      // Filter out the remaining element that is NOT ID
+      setNotes(vNotes.filter(n => n.id !== id))
     })
   }
   return (
