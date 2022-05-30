@@ -2,7 +2,7 @@ import React from 'react'
 import Note from './components/Note'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-
+import noteService from './services/notes'
 const App = ({ notesArr }) => {
 
   // Initialise the piece of state (array of Notes)
