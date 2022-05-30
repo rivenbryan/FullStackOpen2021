@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import personService from './services/axios'
 
 
 // Form for each Person
-const Personform = ({persons, setPersons}) => {
+const Personform = ({ persons, setPersons }) => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewnumber] = useState('')
-  
+
   const addNumber = (e) => {
     e.preventDefault()
     const personObj = {
@@ -15,7 +15,7 @@ const Personform = ({persons, setPersons}) => {
     }
 
     const isFound = persons.some(element => {
-      if (element.name == personObj.name) {
+      if (element.name === personObj.name) {
         return true
       } else {
         return false
@@ -23,14 +23,17 @@ const Personform = ({persons, setPersons}) => {
     })
 
 
-    if (isFound == true) {
+    if (isFound === true) {
 
       alert(newName + 'is already added to phonebook')
     } else {
+      personService.create(addNumber).then(response => {
+        console.log(response)
+        setNewName("")
+        setNewnumber("")
+      })
+      //setPersons(persons.concat(personObj))
 
-      setPersons(persons.concat(personObj))
-      setNewName("")
-      setNewnumber("")
     }
 
   }
@@ -52,18 +55,18 @@ const Personform = ({persons, setPersons}) => {
 }
 
 // Filters out based on searchTerm then map/render it to the website
-const Filter = ({ persons, searchTerm }) => {
-  {
-    return (persons.filter(f => {
-      /* Case: If phonebook name is included in Searchterm => return the variable else return nothing */
-      if (f.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-        return f
-      }
-    }).map(f => {
-      return <li key={f.name}>{f.name} | {f.number}</li>
-    })
-    )
-  }
+const Content = ({ persons, searchTerm }) => {
+
+  return (persons.filter(f => {
+    /* Case: If phonebook name is included in Searchterm => return the variable else return nothing */
+    if (f.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+      return f
+    }
+  }).map(f => {
+    return <li key={f.name}>{f.name} | {f.number}</li>
+  })
+  )
+
 
 }
 const App = () => {
@@ -72,11 +75,8 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState('')
 
   const hook = () => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
+    personService.getAll()
       .then(response => {
-        console.log('promise fulfilled')
         setPersons(response.data)
       })
   }
@@ -84,6 +84,8 @@ const App = () => {
   useEffect(hook, [])
 
 
+
+  //  <Content persons={persons} searchTerm={searchTerm} />
   return (
     <>
       <div>
@@ -94,7 +96,7 @@ const App = () => {
         <h2>Phonebook</h2>
         <Personform persons={persons} setPersons={setPersons} />
         <h2>Numbers</h2>
-        <Filter persons={persons} searchTerm={searchTerm} />
+        <button>Delete</button>
 
 
       </div>
