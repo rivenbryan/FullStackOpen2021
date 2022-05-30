@@ -26,6 +26,7 @@ const Statistics = ({good,neutral,bad,total,average,avgper}) => {
   }
   return (
     <>
+    <div>Bye World</div>
     <table>
       <tbody>
       <tr><StatisticsLine text="good" value={good}/></tr>
