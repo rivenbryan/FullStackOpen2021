@@ -98,7 +98,6 @@ const App = ({ notesArr }) => {
           Show All
         </button>
 
-
       </div>
       <ul>
         {notesToShow.map(note => <Note

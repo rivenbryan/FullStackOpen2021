@@ -1,28 +1,14 @@
 {
   "persons": [
     {
-      "name": "Bryan Tay",
-      "number": "97377933",
-      "id": 1
-    },
-    {
-      "name": "Rebecca Tay Li on",
-      "number": "93869635",
+      "name": "Rebeccafsafa",
+      "number": "12321421",
       "id": 2
     },
     {
-      "name": "Raymond Chun",
-      "number": "12-43-234345",
+      "name": "fsaf",
+      "number": "fasfsaf",
       "id": 3
-    },
-    {
-      "name": "Smelly Lanjiao",
-      "number": "39-23-6423122",
-      "id": 4
-    },
-    {
-      "e ": "> {\n    e.preventDefault();\n    const personObj = {\n      name: newName,\n      number: newNumber\n    };\n    const isFound = persons.some(element => {\n      if (element.name === personObj.name) {\n        return true;\n      } else {\n        return false;\n      }\n    });\n\n    if (isFound === true) {\n      alert(newName   'is already added to phonebook');\n    } else {\n      _services_axios__WEBPACK_IMPORTED_MODULE_1__[\"default\"].create(addNumber).then(response => {\n        console.log(response);\n        setNewName(\"\");\n        setNewnumber(\"\");\n      }); //setPersons(persons.concat(personObj))\n    }\n  }",
-      "id": 5
     }
   ]
 }

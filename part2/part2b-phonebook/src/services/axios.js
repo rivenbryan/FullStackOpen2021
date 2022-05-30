@@ -14,5 +14,9 @@ const update = (id, newObject) => {
     return axios.put(`${baseURL}/${id}`, newObject)
 }
 
+const deleteA = (id) => {
+    return axios.delete(`${baseURL}/${id}`)
+}
+
 // Module returns an obejct that has three functions
-export default { getAll,create,update }
+export default { getAll,create,update, deleteA }
