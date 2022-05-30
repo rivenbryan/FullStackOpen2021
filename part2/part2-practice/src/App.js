@@ -2,6 +2,33 @@ import React from 'react'
 import Note from './components/Note'
 import { useState, useEffect } from 'react'
 import noteService from './services/notes'
+import './index.css'
+import Notification from './components/Notification'
+
+const Footer = () =>{
+  const footerStyle = {
+    color: 'green',
+    fontStyle: 'italic',
+    fontSize: 16
+  }
+
+  return (
+    <div stype={footerStyle}>
+      <br />
+      <em>Note app, Department of CS, NTU 2022</em>
+    </div>
+  )
+
+
+
+}
+
+
+
+
+
+
+
 const App = ({ notesArr }) => {
 
   // Initialise the piece of state (array of Notes)
@@ -15,6 +42,8 @@ const App = ({ notesArr }) => {
   // Keep tracks of which notes should be displayed
   const [showAll, setShowAll] = useState(2)
 
+  // Error Message
+  const [errorMessage, setErrorMessage] = useState(null)
   const hook = () => {
 
     const nonExisting = {
@@ -79,10 +108,13 @@ const App = ({ notesArr }) => {
     // If note.id != id (use back old Array) else (use server.data)
     setNotes(vNotes.map(note => note.id !== id ? note : response.data))
     }).catch(error => {
-      alert(
-        // Catch the error
-        `The note '${note.content} was already added from server`
-      )
+      // Add a descriptive error message
+      setErrorMessage(`Note '${note.content}' is already removed from server`)
+      
+      // After 5second, it will change to NULL
+      setTimeout(()=>{
+        setErrorMessage(null)
+      }, 5000)
       // Filter out the remaining element that is NOT ID
       setNotes(vNotes.filter(n => n.id !== id))
     })
@@ -90,6 +122,7 @@ const App = ({ notesArr }) => {
   return (
     <div>
       <h1>Notes</h1>
+      <Notification message={errorMessage}/>
       <div>
         <button onClick={() => setShowAll(0)}>
           Important Notes
@@ -109,11 +142,9 @@ const App = ({ notesArr }) => {
         {/* onChange occurs when an event such as value of an element has been changed*/}
         <input value={vNewnote} onChange={handleNoteChange} />
         <button type="submit">save</button>
-
       </form>
 
-
-
+      <Footer/>
 
     </div>
   )
