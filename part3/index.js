@@ -23,13 +23,14 @@ let notes = [
 const express = require('express')
 // Creating an express application and store it into app
 const app = express()
+
+// Allow request from all origins
+const cors = require('cors')
+app.use(cors())
+
 // Activate json-parser 
 app.use(express.json())
 
-// #1 Route: Event handler that is used to handle HTTP GET request
-app.get('/', (request, response) => {
-    response.send('<h1>Hello World!</h1>')
-})
 
 // #2 Route: Event handler that is used to handle HTTP GET request
 app.get('/api/notes', (request, response) => {
@@ -97,7 +98,7 @@ app.post('/api/notes', (request, response) => {
 
 
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })

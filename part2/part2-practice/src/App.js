@@ -46,16 +46,9 @@ const App = ({ notesArr }) => {
   const [errorMessage, setErrorMessage] = useState(null)
   const hook = () => {
 
-    const nonExisting = {
-      id: 10000,
-      content: 'This not is not saved in the server',
-      data: '2019-05-30T17:30:31.098Z',
-      important: true
-  }
-
     noteService.getAll()
       .then(response => {
-        setNotes(response.data.concat(nonExisting))
+        setNotes(response.data)
       })
   }
   // Runs after every completed render 
@@ -100,7 +93,8 @@ const App = ({ notesArr }) => {
     // Create a new object {... note} creates a new object with copies of all the properties from the note object
     const changedNote = {...note, important: !note.important}
 
-    console.log('importance of ' + id + 'needs to be toggled')
+    console.log(changedNote)
+    console.log('importance of ' + id + ' needs to be toggled')
 
     // PUT request to the backend where it will replace the old object
     noteService.update(id, changedNote).then(response => {
@@ -110,7 +104,6 @@ const App = ({ notesArr }) => {
     }).catch(error => {
       // Add a descriptive error message
       setErrorMessage(`Note '${note.content}' is already removed from server`)
-      
       // After 5second, it will change to NULL
       setTimeout(()=>{
         setErrorMessage(null)
