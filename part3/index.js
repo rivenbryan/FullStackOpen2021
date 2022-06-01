@@ -72,7 +72,7 @@ const generateID = () => {
 // #5 Route: Adding a resource by making an HTTP POST reques
 app.post('/api/notes', (request, response) => {
     const body = request.body
-
+        // hello
     // Content property cannot be empty
     if (!body.content){
         return response.status(400).json({
